@@ -31,7 +31,7 @@ Add a `DerefPure` trait:
 pub unsafe trait DerefPure : Deref {}
 ```
 
-Implmenenting the `DerefPure` trait tells the compiler that dereferences
+Implementing the `DerefPure` trait tells the compiler that dereferences
 of the type it is implemented for behave like dereferences of normal
 pointers - as long as the receiver is borrowed, the compiler can merge,
 move and remove calls to the `Deref` methods, and the returned pointer
@@ -53,8 +53,8 @@ match self.basic_blocks[*start] {
     BasicBlockData {
         statements: box [],
         terminator: ref mut terminator @ Some(Terminator {
-	    kind: TerminatorKind::Goto { .. }, ..
-	}), ..
+        kind: TerminatorKind::Goto { .. }, ..
+    }), ..
     } => { /* .. */ }
     _ => return
 };
@@ -158,15 +158,18 @@ both `Drop` and `DerefMove` - `Box` implements them both.
 If a type implements `DerefMove`, then the move checker treats it
 as a tree:
 
+```
 x
-    - *x
+└─ *x
+```
 
 It is not possible to move out of the ordinary fields of such a
 type, similarly to types implementing `Drop`.
 
-When such a type is dropped, `*x` (aka `x.deref_move()`) is dropped
-first if it was not moved from already, similarly to `Box` today. Then
-the normal destructor and the destructors of the fields are called.
+When such a type is dropped, `*x` (also known as `x.deref_move()`) is
+dropped first if it was not moved from already, similarly to `Box`
+today. Then the normal destructor and the destructors of the fields
+are called.
 
 ### Impure `DerefMove`
 
@@ -175,16 +178,17 @@ it is impure. However, the natural call-based translation is also
 problematic - it would involve an explicit call to `DerefMove`.
 
 Instead, these calls are handled a bit specially:
-    * The value being dereferenced is borrowed in an `&move` mode. If it is an
-      rvalue, a drop for it is scheduled at the end of the current temporary
-      scope, as usual.
-    * A special `NEW_TEMP = deref_move LVALUE` instruction is placed.
-      When executed, it marks the borrowed value's *interior* as
-      dropped - a second `DerefMove` will not be executed even if the call
-      to `DerefMove::deref_move` panics.
-    * A drop of `NEW_TEMP` is scheduled to the end of the current temporary
-      scope as usual.
-    * `*NEW_TEMP` is the lvalue result of the deref.
+
+- The value being dereferenced is borrowed in an `&move` mode. If it is an
+  rvalue, a drop for it is scheduled at the end of the current temporary
+  scope, as usual.
+- A special `NEW_TEMP = deref_move LVALUE` instruction is placed.
+  When executed, it marks the borrowed value's *interior* as
+  dropped - a second `DerefMove` will not be executed even if the call
+  to `DerefMove::deref_move` panics.
+- A drop of `NEW_TEMP` is scheduled to the end of the current temporary
+  scope as usual.
+- `*NEW_TEMP` is the lvalue result of the deref.
 
 Because `NEW_TEMP` is a value of type `&move _`, its exterior destructor
 is a no-op - if the interior is moved out immediately, the second drop
@@ -194,7 +198,7 @@ This means that using `DerefMove` has different drop orders depending on
 whether `DerefPure` is implemented:
 
 ```Rust
-fn exmaple() {
+fn example() {
     let x = Box::new((4, NoisyDrop));
     {
         let _i = &move (x.0);
@@ -295,24 +299,24 @@ fn this works() {
     let v = vec![box 0, box 1];
     match *v {
         [a, b] => { /* .. */ },
-	ref move _j => { /* .. */ }
+        ref move _j => { /* .. */ }
     }
 
     let v = vec![box 0, box 1];
     {
-	// unlike the previous example, `*v` is not moved out of.
-	// It will be dropped at the end of the temporary scope - i.e
-	// the block.
-	//
-	// The exterior will be dropped at the end of the function,
-	// of course.
-	//
-	// If `Vec` is `DerefPure` however, this operation will be a
-	// no-op, and the entirety of `v` will be dropped at EOS.
-	match *v {
-	    [a, b] if false => { /* .. */ } // force a move
-	    _ => {}
-	}
+        // unlike the previous example, `*v` is not moved out of.
+        // It will be dropped at the end of the temporary scope - i.e
+        // the block.
+        //
+        // The exterior will be dropped at the end of the function,
+        // of course.
+        //
+        // If `Vec` is `DerefPure` however, this operation will be a
+        // no-op, and the entirety of `v` will be dropped at EOS.
+        match *v {
+            [a, b] if false => { /* .. */ } // force a move
+            _ => {}
+        }
     }
 }
 ```
@@ -336,7 +340,7 @@ equivalent to `Unique<T>`.
 
 Add more features of the move checker to the type-system, e.g. strongly
 linear `&out`. That is quite complex, and requires more considerations
-wrt. panics.
+with respect to panics.
 
 A call to an impure `DerefMove` that panics before generating the move
 pointer will leak the interior. I think this is better than potentially
