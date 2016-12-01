@@ -42,6 +42,11 @@ crates" as stated in the [Rust 2017 Roadmap][roadmap].
 # Detailed design
 [design]: #detailed-design
 
+Please see the [Appendix: Comparative Research][appendix] section for ways that
+other package manager websites have solved this problem.
+
+[appendix]: #appendix-comparative-research
+
 This proposal is not attempting to change the order of search results; those
 should still be ordered by relevancy to the query based on the indexed content.
 
