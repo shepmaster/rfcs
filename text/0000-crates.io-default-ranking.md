@@ -110,3 +110,14 @@ not what we want? Would we need another RFC?
 
 This is how other package hosting websites handle default sorting within
 categories.
+
+## Django Packages
+
+[Django Packages][django] has the concept of [grids][], which are large tables of packages in a particular category. Each package is a column, and each row is some attribute of packages. The default ordering from left to right appears to be Github Stars.
+
+[django]: https://djangopackages.org/
+[grids]: https://djangopackages.org/grids/
+
+<img src="http://i.imgur.com/YAp9WYf.png" alt="Example of a Django Packages grid" width="800" />
+
+
