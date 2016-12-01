@@ -113,11 +113,114 @@ categories.
 
 ## Django Packages
 
-[Django Packages][django] has the concept of [grids][], which are large tables of packages in a particular category. Each package is a column, and each row is some attribute of packages. The default ordering from left to right appears to be Github Stars.
+[Django Packages][django] has the concept of [grids][], which are large tables
+of packages in a particular category. Each package is a column, and each row is
+some attribute of packages. The default ordering from left to right appears to
+be GitHub stars.
 
 [django]: https://djangopackages.org/
 [grids]: https://djangopackages.org/grids/
 
 <img src="http://i.imgur.com/YAp9WYf.png" alt="Example of a Django Packages grid" width="800" />
 
+## Libhunt
 
+[Libhunt][libhunt] pulls libraries and categories from [Awesome Rust][], then
+adds some metadata and navigation.
+
+The default ranking is relative popularity, measured by GitHub stars and scaled
+to be a number out of 10 as compared to the most popular crate. The other
+ordering offered is dev activity, which again is a score out of 10, relative to
+all other crates, and calculated by giving a higher weight to more recent
+commits.
+
+[libhunt]: https://rust.libhunt.com/
+
+<img src="http://i.imgur.com/Yv6diFU.png" alt="Example of a Libhunt category" width="800" />
+
+You can also choose to compare two libraries on a number of attributes:
+
+<img src="http://i.imgur.com/HBtCH2E.png" alt="Example of comparing two crates on Libhunt" width="800" />
+
+## Maven Repository
+
+[Maven Repository][mvn] appears to order by the number of reverse dependencies
+("# usages"):
+
+[mvn]: http://mvnrepository.com
+
+<img src="http://i.imgur.com/nZEQdAr.png" alt="Example of a maven repository category" width="800" />
+
+## Pypi
+
+[Pypi][pypi] lets you choose multiple categories, which are not only based on
+topic but also other attributes like library stability and operating system:
+
+[pypi]: https://pypi.python.org/pypi?%3Aaction=browse
+
+<img src="http://i.imgur.com/Y3llc5m.png" alt="Example of filtering by Pypi categories" width="800" />
+
+Once you've selected categories and click the "show all" packages in these
+categories link, the packages are in alphabetical order... but the alphabet
+starts over multiple times... it's unclear from the interface why this is the
+case.
+
+<img src="http://i.imgur.com/xEKGTsQ.jpg" alt="Example of Pypi ordering" width="800" />
+
+## GitHub Showcases
+
+To get incredibly meta, GitHub has the concept of [showcases][] for a variety
+of topics, and they have [a showcase of package managers][show-pkg]. The
+default ranking is by GitHub stars (cargo is 17/27 currently).
+
+[showcases]: https://github.com/showcases
+[show-pkg]: https://github.com/showcases/package-managers
+
+<img src="http://i.imgur.com/SCvKQi2.png" alt="Example of a GitHub showcase" width="800" />
+
+## Ruby toolbox
+
+[Ruby toolbox][rb] sorts by a relative popularity score, which is calculated
+from a combination of GitHub stars/watchers and number of downloads:
+
+[rb]: https://www.ruby-toolbox.com
+
+<img src="http://i.imgur.com/5Qt03n3.png" alt="How Ruby Toolbox's popularity ranking is calculated" width="800" />
+
+Category pages have a bar graph showing the top gems in that category, which
+looks like a really useful way to quickly see the differences in relative
+popularity. For example, this shows nokogiri is far and away the most popular
+HTML parser:
+
+<img src="http://i.imgur.com/tj8emlu.png" alt="Example of Ruby Toolbox ordering" width="800" />
+
+Also of note is the amount of information shown by default, but with a
+magnifying glass icon that, on hover or tap, reveals more information without a
+page load/reload:
+
+<img src="http://i.imgur.com/0NPi6ct.png" alt="Expanded Ruby Toolbox info" width="800" />
+
+## npms
+
+While [npms][] doesn't have categories, its search appears to do some exact
+matching of the query and then rank the rest of the results [weighted][] by
+three different scores:
+
+* score-effect:14: Set the effect that package scores have for the final search score, defaults to 15.3
+* quality-weight:1: Set the weight that quality has for the each package score, defaults to 1.95
+* popularity-weight:1: Set the weight that popularity has for the each package score, defaults to 3.3
+* maintenance-weight:1: Set the weight that the quality has for the each package score, defaults to 2.05
+
+[npms]: https://npms.io
+[weighted]: https://api-docs.npms.io/
+
+<img src="http://i.imgur.com/aWMeNv5.png" alt="Example npms search results" width="800" />
+
+There are [many factors][] that go into the three scores, and more are planned
+to be added in the future. Implementation details are available in the
+[architecture documentation][].
+
+[many factors]: https://npms.io/about
+[architecture documentation]: https://github.com/npms-io/npms-analyzer/blob/master/docs/architecture.md
+
+<img src="http://i.imgur.com/0i897ts.png" alt="Explanation of the data analyzed by npms" width="800" />
