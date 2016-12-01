@@ -99,3 +99,9 @@ and filtering.
 be useful.
 - How do we change the ranking if we try something for a while and decide it's
 not what we want? Would we need another RFC?
+
+# Appendix: Comparative Research
+[comparative-research]: #appendix-comparative-research
+
+This is how other package hosting websites handle default sorting within
+categories.
