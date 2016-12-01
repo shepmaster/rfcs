@@ -118,6 +118,6 @@ categories.
 [django]: https://djangopackages.org/
 [grids]: https://djangopackages.org/grids/
 
-<img src="http://i.imgur.com/YAp9WYf.png" alt="Example of a Django Packages grid" width="800" style="border: 1px solid #ccc;"/>
+<img src="http://i.imgur.com/YAp9WYf.png" alt="Example of a Django Packages grid" width="800" />
 
 
