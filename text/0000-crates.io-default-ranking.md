@@ -9,13 +9,15 @@
 Crates.io has many useful libraries for a variety of purposes, but it's
 currently difficult to find which crates are meant for a particular purpose
 then decide among the available crates which one is most suitable in a
-particular context. [Categorization is coming to crates.io][cat-pr], which
-helps with finding a set of crates to consider, but the question of how to
-order crates within a category is still open. This RFC proposes a method of
-ranking crates combining number of downloads, verison, and other attributes in
-order to help someone decide what crate to use.
+particular context. [Categorization][cat-pr] and [badges][badge-pr] (well, one
+so far anyway) are coming to crates.io. Categories help with finding a set of
+crates to consider. Badges can help communicate attributes of various crates.
+The question of how to order crates within a category is still open. This RFC
+proposes a method of ranking crates combining number of downloads, verison, and
+other attributes in order to help someone decide what crate to use.
 
 [cat-pr]: https://github.com/rust-lang/crates.io/pull/473
+[badge-pr]: https://github.com/rust-lang/crates.io/pull/481
 
 # Motivation
 [motivation]: #motivation
@@ -39,9 +41,15 @@ This helps address the goal of "Rust should provide easy access to high quality 
 # Detailed design
 [design]: #detailed-design
 
-This is the bulk of the RFC. Explain the design in enough detail for somebody familiar
-with the language to understand, and for somebody familiar with the compiler to implement.
-This should get into specifics and corner-cases, and include examples of how the feature is used.
+This proposal is not attempting to change the order of search results; those
+should still be ordered by relevancy to the query based on the indexed content.
+
+# How do we teach this?
+
+- How do we communicate the ranking formula (and possible changes) to crate
+users and crate authors?
+- Tool for crate authors to see why their crate is ranked the way it is and
+what they could do to change it
 
 # Drawbacks
 [drawbacks]: #drawbacks
@@ -54,6 +62,8 @@ that isn't actually useful, just to get to the top of the list.
 # Alternatives
 [alternatives]: #alternatives
 
+## Manual curation
+
 We could keep the default ranking as number of downloads, and leave further curation to sites like [Awesome Rust].
 
 [Awesome Rust]: https://github.com/kud1ing/awesome-rust
@@ -65,7 +75,25 @@ evaluations and be less vulnerable to gaming.
 
 [emberobserver]: https://emberobserver.com/about
 
+## More options instead of a default
+
+We could instead add filtering options for binary metadata, so that each crate
+user could choose, for example, "show me only crates that work on stable" or
+"show me only crates that have a version greater than 1.0".
+
+We could add independent axes of sorting criteria to the list that currently
+just has alphabetical and number of downloads.
+
+The sorting and filtering options would let each user choose exactly what's
+important to them, which gives them more freedom but also more work. Crates.io
+would avoid taking a position on what "best" means, which could prevent gaming
+of the system since crate authors wouldn't know how users are ultimately
+sorting and filtering.
+
 # Unresolved questions
 [unresolved]: #unresolved-questions
 
-What parts of the design are still TBD?
+- There might be metadata about crates that we haven't thought of yet that would
+be useful.
+- How do we change the ranking if we try something for a while and decide it's
+not what we want? Would we need another RFC?
