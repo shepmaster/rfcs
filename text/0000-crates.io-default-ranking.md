@@ -42,12 +42,20 @@ crates" as stated in the [Rust 2017 Roadmap][roadmap].
 # Detailed design
 [design]: #detailed-design
 
-Please see the [Appendix: Comparative Research][appendix] section for ways that
-other package manager websites have solved this problem.
+Please see the [Appendix: Comparative Research][comparative-research] section
+for ways that other package manager websites have solved this problem, and the
+[Appendix: User Research][user-research] section for results of a user research
+survey we did on how people evaluate crates by hand today.
 
-[appendix]: #appendix-comparative-research
+When navigating to a category, crates will be ranked by default by...
 
-This proposal is not attempting to change the order of search results; those
+We will know if this is working by...
+
+## Example
+
+## Out of scope
+
+This proposal is not advocating to change the order of **search results**; those
 should still be ordered by relevancy to the query based on the indexed content.
 
 # How do we teach this?
@@ -224,3 +232,6 @@ to be added in the future. Implementation details are available in the
 [architecture documentation]: https://github.com/npms-io/npms-analyzer/blob/master/docs/architecture.md
 
 <img src="http://i.imgur.com/0i897ts.png" alt="Explanation of the data analyzed by npms" width="800" />
+
+# Appendix: User Research
+[user-research]: #appendix-user-research
