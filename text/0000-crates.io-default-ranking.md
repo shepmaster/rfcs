@@ -233,5 +233,20 @@ to be added in the future. Implementation details are available in the
 
 <img src="http://i.imgur.com/0i897ts.png" alt="Explanation of the data analyzed by npms" width="800" />
 
+## Package Control (Sublime)
+
+[Package Control][] is for Sublime Text packages. It has Labels that are
+roughly equivalent to categories:
+
+[Package Control]: https://packagecontrol.io/
+
+<img src="http://i.imgur.com/81PGbFM.png" alt="Package Control homepage showing Labels like language syntax, snippets" width="800" />
+
+The only available ordering within a label is alphabetical, but each result has
+the number of downloads plus badges for Sublime Text version compatibility, OS
+compatibility, Top 25/100, and new/trending:
+
+<img src="http://i.imgur.com/KtWcOXV.png" alt="Sample Package Control list of packages within a label, sorted alphabetically" width="800" />
+
 # Appendix: User Research
 [user-research]: #appendix-user-research
