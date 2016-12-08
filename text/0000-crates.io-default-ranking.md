@@ -47,11 +47,16 @@ for ways that other package manager websites have solved this problem, and the
 [Appendix: User Research][user-research] section for results of a user research
 survey we did on how people evaluate crates by hand today.
 
-When navigating to a category, crates will be ranked by default by...
 
-We will know if this is working by...
+
+When navigating to a category, we propose that crates will be ranked by default by...
+
 
 ## Example
+
+## Evaluation
+
+We will know if this is working by...
 
 ## Out of scope
 
