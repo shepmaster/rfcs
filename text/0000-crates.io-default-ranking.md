@@ -47,9 +47,60 @@ for ways that other package manager websites have solved this problem, and the
 [Appendix: User Research][user-research] section for results of a user research
 survey we did on how people evaluate crates by hand today.
 
+## Factors
+
+When people evaluate crates, they are looking primarily for approximate signals of:
+
+* Ease of use
+* Maintenance
+* Quality
+
+Feeding those signals are related measures of:
+
+* Popularity
+* Credibility
+
+We propose to make it easier for people to evaluate crates along these axes by making available:
+
+### Ease of use
+
+- Letter grade for % of public types + methods that have documentation
+- In the crate root documentation, presence of a section headed with the word "Example" and containing a codeblock
+- Presence of files in /examples
+
+### Maintenance
+
+- Last released version date: newer is better
+    - # releases in the last year - 10%  7
+    - # releases in the last 6 mo - 30%  2
+    - # releases in the last month - 60% 1
+    Recent weighted # of releases score = 1.9
+
+- Version >= 1.0.0 ranks higher
+
+- # of owners: more is better. Group counts as 1. Future improvement: count # of people in the github group
+
+### Quality
+
+The best we can come up with to do here without taking a stance on preferred 3rd party CI providers is:
+
+- Are there `#[test]` annotations?
+- Are there `test/` files?
+
+### Popularity/credibility
+
+- Number of downloads weighted by time across all versions
+    - # downloads in the last year - 10%
+    - # downloads in the last 6 mo - 30%
+    - # downloads in the last month - 60%
+
+
 
 
 When navigating to a category, we propose that crates will be ranked by default by...
+
+- Scores are relative to all available crates
+
 
 
 ## Example
@@ -255,3 +306,10 @@ compatibility, Top 25/100, and new/trending:
 
 # Appendix: User Research
 [user-research]: #appendix-user-research
+
+
+
+
+
+* Render and/or link to code in /examples from crates.io or in rustdoc
+
