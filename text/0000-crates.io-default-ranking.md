@@ -129,7 +129,7 @@ available a clear explanation of why a crate has the score it does, for
 transparency to both crate users and crate authors. [Ruby toolbox][ruby] has a
 great example of what we'd like to provide.
 
-[ruby]: [#ruby-toolbox]
+[ruby]: #ruby-toolbox
 
 A possible benefit of having multiple measures influence the ranking is making
 it less likely that crate owners will go to the effort of gaming the formula in
