@@ -100,12 +100,12 @@ making available measures that address each of these areas.
 - In the crate root documentation, presence of a section headed with the word
   "Example" and containing a codeblock
   - Existing issue, seen in the survey results is that people look in both the README of the repo and the front page of the docs for examples
-  - This would increase your doc percentage score by 5%
+  - Increases the doc percentage score by 5%
 
 - Presence of files in /examples
   - Future improvement: [render and link to examples in
     documentation](https://github.com/rust-lang/cargo/issues/2760)
-  - This would increase your doc percentage score by 5%
+  - Increases the doc percentage score by 5%
 
 The percentage score plus the bonuses for examples would then be binned into letter grades for display:
 
@@ -121,14 +121,23 @@ sense.
 
 ### Maintenance
 
-- Last released version date: newer is better
-    - Number of releases in the last year - 10%
-    - Number of releases in the last 6 mo - 30%
-    - Number of releases in the last month - 60%
+- Last released version date: newer is better. This information is already
+  available in crates.io's database; could be stored in the database and
+  updated per-publish. Combined as follows, then reported as a percentage
+  relative to the most released crate.
+  - Number of releases in the last year - 10%
+  - Number of releases in the last 6 mo - 30%
+  - Number of releases in the last month - 60%
 
-- Version >= 1.0.0 ranks higher
+- Stable version number
+  - >= 1.0.0 ranks higher than < 1.0.0
+  - >=1.0.0 increases the maintenance score by 5%.
 
-- Number of owners: more is better. Group counts as 1. Future improvement: count # of people in the github group
+- Number of owners: more is better.
+  - A GitHub group owner would count as 1.
+  - Future improvement: count # of people in the github group at version
+    publish time
+  - >= 3 owners increases the maintenance score by 5%.
 
 ### Quality
 
@@ -140,12 +149,13 @@ The best we can come up with to do here without taking a stance on preferred
 
 ### Popularity/credibility
 
-- Number of downloads weighted by time across all versions
-    - Number of downloads in the last year - 10%
-    - Number of downloads in the last 6 mo - 30%
-    - Number of downloads in the last month - 60%
+- Number of downloads weighted by time across all versions. Combined as
+  follows, then reported as a percentage relative to the most downloaded crate. Can be calculated as part of the [update-downloads][] background job.
+  - Number of downloads in the last year - 10%
+  - Number of downloads in the last 6 mo - 30%
+  - Number of downloads in the last month - 60%
 
-
+[update-downloads]: https://github.com/rust-lang/crates.io/blob/master/src/bin/update-downloads.rs
 
 ### Overall
 
