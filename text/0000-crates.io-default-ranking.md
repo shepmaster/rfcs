@@ -99,7 +99,8 @@ making available measures that address each of these areas.
 
 - In the crate root documentation, presence of a section headed with the word
   "Example" and containing a codeblock
-  - Existing issue, seen in the survey results is that people look in both the README of the repo and the front page of the docs for examples
+  - Existing issue, seen in the survey results is that people look in both the
+    README of the repo and the front page of the docs for examples
   - Increases the doc percentage score by 5%
 
 - Presence of files in /examples
@@ -107,7 +108,8 @@ making available measures that address each of these areas.
     documentation](https://github.com/rust-lang/cargo/issues/2760)
   - Increases the doc percentage score by 5%
 
-The percentage score plus the bonuses for examples would then be binned into letter grades for display:
+The percentage score plus the bonuses for examples would then be binned into
+letter grades for display:
 
 - 90-100% = A
 - 80-89 = B
@@ -150,7 +152,8 @@ The best we can come up with to do here without taking a stance on preferred
 ### Popularity/credibility
 
 - Number of downloads weighted by time across all versions. Combined as
-  follows, then reported as a percentage relative to the most downloaded crate. Can be calculated as part of the [update-downloads][] background job.
+  follows, then reported as a percentage relative to the most downloaded crate.
+  Can be calculated as part of the [update-downloads][] background job.
   - Number of downloads in the last year - 10%
   - Number of downloads in the last 6 mo - 30%
   - Number of downloads in the last month - 60%
@@ -342,10 +345,14 @@ While [npms][] doesn't have categories, its search appears to do some exact
 matching of the query and then rank the rest of the results [weighted][] by
 three different scores:
 
-* score-effect:14: Set the effect that package scores have for the final search score, defaults to 15.3
-* quality-weight:1: Set the weight that quality has for the each package score, defaults to 1.95
-* popularity-weight:1: Set the weight that popularity has for the each package score, defaults to 3.3
-* maintenance-weight:1: Set the weight that the quality has for the each package score, defaults to 2.05
+* score-effect:14: Set the effect that package scores have for the final search
+  score, defaults to 15.3
+* quality-weight:1: Set the weight that quality has for the each package score,
+  defaults to 1.95
+* popularity-weight:1: Set the weight that popularity has for the each package
+  score, defaults to 3.3
+* maintenance-weight:1: Set the weight that the quality has for the each
+  package score, defaults to 2.05
 
 [npms]: https://npms.io
 [weighted]: https://api-docs.npms.io/
@@ -964,24 +971,100 @@ evaluate which crates to try.
 
 ### Easy to use
 
-> rust docs:  Is there an intro and example on the top-level page?  are the rustdoc examples detailed enough to cover a range of usecases?  can i avoid reading through the files in the examples folder?
+> 1) Documentation linked from crates.io  2) Documentation contains decent
+> example on front page
 
-Ok, this one isn't from the survey, it's from [this internals thread in Sept 2015](https://users.rust-lang.org/t/lets-talk-about-ecosystem-documentation/2791/24?u=carols10cents):
+> 3. "Docs Coverage" info - I'm not sure if there's a way to get that right
+> now, but this is almost more important that test coverage.
 
->> there should be indicator in Crates.io that show how much code is documented, this would help with choosing well done package.
-> I really love this idea! Showing a percentage or a little progress bar next to each crate with the proportion of public items with at least some docs would be a great starting point.
+> rust docs:  Is there an intro and example on the top-level page?  are the
+> rustdoc examples detailed enough to cover a range of usecases?  can i avoid
+> reading through the files in the examples folder?
+
+> Documentation:
+> - Is there a README? Does it give me example usage of the library? Point me
+>   to more details?
+> - Are functions themselves documented?
+> - Does the documentation appear to be up to date?
+
+> The GitHub repository pages, because there are no examples or detailed
+> descriptions on crates.io. From the GitHub readme I first checked the readme
+> itself for a code example, to get a feeling for the library. Then I looked
+> for links to documentation or tutorials and examples. The crates that did not
+> have this I discarded immediately.
+
+> When evaluating any library from crates.io, I first follow the repository
+> link -- often the readme is enough to know whether or not I like the actual
+> library structure. For me personally a library's usability is much more
+> important than performance concerns, so I look for code samples that show me
+> how the library is used.    In the examples given, only peresil forces me to
+> look at the actual documentation to find an example of use. I want something
+> more than "check the docs" in a readme in regards to getting started.
+
+> I would like the entire README.md of each package to be visible on crates.io
+> I would like a culture where each README.md contains a runnable example
+
+Ok, this one isn't from the survey, it's from [a Sept 2015 internals thread][]:
+
+[a Sept 2015 internals thread]: https://users.rust-lang.org/t/lets-talk-about-ecosystem-documentation/2791/24?u=carols10cents
+
+>> there should be indicator in Crates.io that show how much code is
+>> documented, this would help with choosing well done package.
+> I really love this idea! Showing a percentage or a little progress bar next
+> to each crate with the proportion of public items with at least some docs
+> would be a great starting point.
 
 ### Maintenance
 
+> On nom's crates.io page I checked the version (2.0.0) and when the latest
+> version came out (less than a month ago). I know that versioning is
+> inconsistent across crates, but I'm reassured when a crate has V >= 1.0
+> because it typically indicates that the authors are confident the crate is
+> production-ready. I also like to see multiple, relatively-recent releases
+> because it signals the authors are serious about maintenance.
+
+> Answering yes scores points:  crates.io page:  Does the crate have a major
+> version >= 1?  Has there been a release recently, and maybe even a steady
+> stream of minor or patch-level releases?
+
+> From github:
+> * Number of commits and of contributors (A small number of commits (< 100)
+> and of contributors (< 3) is often the sign of a personal project, probably
+> not very much used except by its author. All other things equal, I tend to
+> prefer active projects.);
+
 ### Quality
+
+> Tests:
+> - Is critical functionality well tested?
+> - Is the entire package well tested?
+> - Are the tests clear and descriptive?
+> - Could I reimplement the library based on these tests?
+> - Does the project have CI?
+> - Is master green?
 
 ### Popularity/credibility
 
-> 1. Compare the number of downloads: More downloads = more popular = should be the best
+> 2) I look  at the number of download. If it is too small (~ <1000), I assume
+> the crate has not yet reached a good quality. nom catches my attention
+> because it has 200K download: I assume it is a high quality crate.
+
+> 1. Compare the number of downloads: More downloads = more popular = should be
+> the best
+
+> Popularity:  - Although not being a huge factor, it can help tip the scale
+> when one is more popular or well supported than another when all other
+> factors are close.
 
 ### Overall
 
-> I can't pick a most important trait because certain ones outweigh others when combined, etc. I.e. number of downloads is OK, but may only suggest that it's been around the longest. Same with number of dependent crates (which probably spikes number of downloads). I like a crate that is well documented, has a large user base (# dependent crates + downloads + stars), is post 1.0, is active (i.e. a release within the past 6 months?), and it helps when it's a prominent author (but that I feel is an unfair metric).
+> I can't pick a most important trait because certain ones outweigh others when
+> combined, etc. I.e. number of downloads is OK, but may only suggest that it's
+> been around the longest. Same with number of dependent crates (which probably
+> spikes number of downloads). I like a crate that is well documented, has a
+> large user base (# dependent crates + downloads + stars), is post 1.0, is
+> active (i.e. a release within the past 6 months?), and it helps when it's a
+> prominent author (but that I feel is an unfair metric).
 
 ## Relevant bugs capturing other feedback
 
