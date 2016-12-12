@@ -47,20 +47,27 @@ for ways that other package manager websites have solved this problem, and the
 [Appendix: User Research][user-research] section for results of a user research
 survey we did on how people evaluate crates by hand today.
 
+A few assumptions we made:
+
+- Measures that can be made automatically are preferred over measures that would need administrators, curators, or the community to spend time making manually.
+- Measures that can be made for any crate regardless of that crate's choice of version control, repository host, or CI service are preferred over measures that would only be available or would be more easily available with git, GitHub, Travis, and Appveyor.
+- There are some measures, like "suitability for the current task" or "whether I like the way the crate is implemented" that crates.io shouldn't even attempt to assess, since those could potentially differ across situations for the same person looking for a crate.
+
 ## Factors
 
-When people evaluate crates, they are looking primarily for approximate signals of:
+Through [the survey we conducted][user-research], we found that when people
+evaluate crates, they are looking primarily for approximate signals of:
 
-* Ease of use
-* Maintenance
-* Quality
+- Ease of use
+- Maintenance
+- Quality
 
 Feeding those signals are related measures of:
 
-* Popularity
-* Credibility
+- Popularity
+- Credibility
 
-We propose to make it easier for people to evaluate crates along these axes by making available:
+We propose to make it easier for people to evaluate crates along these axes by making available measures that address each of these areas.
 
 ### Ease of use
 
@@ -78,7 +85,7 @@ We propose to make it easier for people to evaluate crates along these axes by m
 
 - Version >= 1.0.0 ranks higher
 
-- # of owners: more is better. Group counts as 1. Future improvement: count # of people in the github group
+- Number of owners: more is better. Group counts as 1. Future improvement: count # of people in the github group
 
 ### Quality
 
@@ -116,10 +123,17 @@ should still be ordered by relevancy to the query based on the indexed content.
 
 # How do we teach this?
 
-- How do we communicate the ranking formula (and possible changes) to crate
-users and crate authors?
-  - A tool for crate authors to see why their crate is ranked the way it is and
-what they could do to change it.
+A criticism we anticipate and that would be totally fair is that this formula
+is too complex. If we go with this formula, we think it's important to make
+available a clear explanation of why a crate has the score it does, for
+transparency to both crate users and crate authors. [Ruby toolbox][ruby] has a
+great example of what we'd like to provide.
+
+[ruby]: [#ruby-toolbox]
+
+A possible benefit of having multiple measures influence the ranking is making
+it less likely that crate owners will go to the effort of gaming the formula in
+order to have a higher ranking.
 
 # Drawbacks
 [drawbacks]: #drawbacks
@@ -307,6 +321,8 @@ compatibility, Top 25/100, and new/trending:
 # Appendix: User Research
 [user-research]: #appendix-user-research
 
+## Demographics
+
 We ran a survey for 1 week and got 134 responses. The responses we got seem to
 be representative of the current Rust community: skewing heavily towards more
 experienced programmers and just about evenly distributed between Rust
@@ -323,6 +339,45 @@ this survey is representative. Given the bias towards more experience
 programming, we think the answers are worthy of using to inform recommendations
 crates.io will be making to programmers of all experience levels.
 
+## Crate ranking agreement
+
+The community ranking of the 5 crates presented in the survey for which order
+people would try them out for parsing comes out to be:
+
+1. nom
+2. combine
+3. and 4. peg and lalrpop, in some order
+5. peresil
+
+This chart shows how many people ranked the crates in each slot:
+
+<img src="http://i.imgur.com/x5SOTps.png" width="800" alt="Raw votes for each crate in each slot, showing that nom and combine are pretty clearly 1 and 2, peresil is clearly 5, and peg and lalrpop both got slotted in 4th most often" />
+
+This chart shows the cumulative number of votes: each slot contains the number
+of votes each crate got for that ranking or above.
+
+<img src="http://i.imgur.com/QsfwVNj.png" width="800" alt="" />
+
+Whatever default ranking formula we come up with in this RFC, when applied to
+these 5 crates, it should generate an order for the crates that aligns with the
+community ordering. Also, not everyone will agree with the crates.io ranking,
+so we should display other information and provide alternate filtering and
+sorting mechanisms so that people who prioritize different attributes than the
+majority of the community will be able to find what they are looking for.
+
+## Factors considered when ranking crates
+
+The following table shows the top 25 mentioned factors for the two free answer
+sections. We asked both "Please explain what information you used to evaluate
+the crates and how that information influenced your ranking." and "Was there
+any information you wish was available, or that would have taken more than 15
+minutes for you to get?", but some of the same factors were deemed to take too
+long to find out or not be easily available, while others did consider those,
+so we've ranked by the combination of mentions of these factors in both
+questions.
+
+Far and away, good documentation was the most mentioned factor people used to
+evaluate which crates to try.
 
 <table border="1" cellspacing="0" cellpadding="0">
     <tr>
@@ -852,3 +907,11 @@ crates.io will be making to programmers of all experience levels.
 
 * Render and/or link to code in /examples from crates.io or in rustdoc
 
+## Relevant bugs capturing other feedback
+
+There was a wealth of good ideas and feedback in the survey answers, but not
+all of it pertained to crate ranking directly. Commonly mentioned improvements
+that could greatly help the usability and usefulness of crates.io included:
+
+* [Rendering the README on crates.io](https://github.com/rust-lang/crates.io/issues/81)
+* [Linking to docs.rs if the crate hasn't specified a Documentation link](https://github.com/rust-lang/crates.io/pull/459)
