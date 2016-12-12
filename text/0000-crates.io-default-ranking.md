@@ -49,9 +49,26 @@ survey we did on how people evaluate crates by hand today.
 
 A few assumptions we made:
 
-- Measures that can be made automatically are preferred over measures that would need administrators, curators, or the community to spend time making manually.
-- Measures that can be made for any crate regardless of that crate's choice of version control, repository host, or CI service are preferred over measures that would only be available or would be more easily available with git, GitHub, Travis, and Appveyor.
-- There are some measures, like "suitability for the current task" or "whether I like the way the crate is implemented" that crates.io shouldn't even attempt to assess, since those could potentially differ across situations for the same person looking for a crate.
+- Measures that can be made automatically are preferred over measures that
+  would need administrators, curators, or the community to spend time making
+  manually.
+- Measures that can be made for any crate regardless of that crate's choice of
+  version control, repository host, or CI service are preferred over measures
+  that would only be available or would be more easily available with git,
+  GitHub, Travis, and Appveyor. Our thinking is that when this additional
+  information is available, it would be better to display a badge indicating it
+  since this is valuable information, but it should not influence the ranking
+  of the crates.
+- There are some measures, like "suitability for the current task" or "whether
+  I like the way the crate is implemented" that crates.io shouldn't even
+  attempt to assess, since those could potentially differ across situations for
+  the same person looking for a crate.
+- We assume we will be able to calculate these in a reasonable amount of time
+  either on-demand or by a background job initiated on crate publish and saved
+  in the database as appropriate. We think the measures we have proposed can be
+  done without impacting the performance of either publishing or browsing
+  crates noticeably. If this does not turn out to be the case, we will have to
+  adjust the formula.
 
 ## Factors
 
@@ -67,21 +84,47 @@ Feeding those signals are related measures of:
 - Popularity
 - Credibility
 
-We propose to make it easier for people to evaluate crates along these axes by making available measures that address each of these areas.
+We propose to make it easier for people to evaluate crates along these axes by
+making available measures that address each of these areas.
 
 ### Ease of use
 
-- Letter grade for % of public types + methods that have documentation
-- In the crate root documentation, presence of a section headed with the word "Example" and containing a codeblock
+
+- Percentage of public types + methods that have documentation
+  - Would need an extension, something like the `missing_docs` lint, to count
+    the number of public things and the number that have/don't have
+    documentation.
+  - Would need to unpack and run this on each package version in a background
+    job started by a publish; then save the percentage in crates.io's database.
+
+- In the crate root documentation, presence of a section headed with the word
+  "Example" and containing a codeblock
+  - Existing issue, seen in the survey results is that people look in both the README of the repo and the front page of the docs for examples
+  - This would increase your doc percentage score by 5%
+
 - Presence of files in /examples
+  - Future improvement: [render and link to examples in
+    documentation](https://github.com/rust-lang/cargo/issues/2760)
+  - This would increase your doc percentage score by 5%
+
+The percentage score plus the bonuses for examples would then be binned into letter grades for display:
+
+- 90-100% = A
+- 80-89 = B
+- 70-79 = C
+- 60-69 = D
+- 50-59 = E
+- 0-49 = F
+
+This is not exactly the American grading system, but we think it makes more
+sense.
 
 ### Maintenance
 
 - Last released version date: newer is better
-    - # releases in the last year - 10%  7
-    - # releases in the last 6 mo - 30%  2
-    - # releases in the last month - 60% 1
-    Recent weighted # of releases score = 1.9
+    - Number of releases in the last year - 10%
+    - Number of releases in the last 6 mo - 30%
+    - Number of releases in the last month - 60%
 
 - Version >= 1.0.0 ranks higher
 
@@ -89,7 +132,8 @@ We propose to make it easier for people to evaluate crates along these axes by m
 
 ### Quality
 
-The best we can come up with to do here without taking a stance on preferred 3rd party CI providers is:
+The best we can come up with to do here without taking a stance on preferred
+3rd party CI providers is:
 
 - Are there `#[test]` annotations?
 - Are there `test/` files?
@@ -97,11 +141,13 @@ The best we can come up with to do here without taking a stance on preferred 3rd
 ### Popularity/credibility
 
 - Number of downloads weighted by time across all versions
-    - # downloads in the last year - 10%
-    - # downloads in the last 6 mo - 30%
-    - # downloads in the last month - 60%
+    - Number of downloads in the last year - 10%
+    - Number of downloads in the last 6 mo - 30%
+    - Number of downloads in the last month - 60%
 
 
+
+### Overall
 
 
 When navigating to a category, we propose that crates will be ranked by default by...
@@ -111,6 +157,8 @@ When navigating to a category, we propose that crates will be ranked by default 
 
 
 ## Example
+
+## Display
 
 ## Evaluation
 
@@ -902,10 +950,28 @@ evaluate which crates to try.
     </tr>
 </table>
 
+## Relevant quotes motivating our choice of factors
 
+### Easy to use
 
+> rust docs:  Is there an intro and example on the top-level page?  are the rustdoc examples detailed enough to cover a range of usecases?  can i avoid reading through the files in the examples folder?
 
-* Render and/or link to code in /examples from crates.io or in rustdoc
+Ok, this one isn't from the survey, it's from [this internals thread in Sept 2015](https://users.rust-lang.org/t/lets-talk-about-ecosystem-documentation/2791/24?u=carols10cents):
+
+>> there should be indicator in Crates.io that show how much code is documented, this would help with choosing well done package.
+> I really love this idea! Showing a percentage or a little progress bar next to each crate with the proportion of public items with at least some docs would be a great starting point.
+
+### Maintenance
+
+### Quality
+
+### Popularity/credibility
+
+> 1. Compare the number of downloads: More downloads = more popular = should be the best
+
+### Overall
+
+> I can't pick a most important trait because certain ones outweigh others when combined, etc. I.e. number of downloads is OK, but may only suggest that it's been around the longest. Same with number of dependent crates (which probably spikes number of downloads). I like a crate that is well documented, has a large user base (# dependent crates + downloads + stars), is post 1.0, is active (i.e. a release within the past 6 months?), and it helps when it's a prominent author (but that I feel is an unfair metric).
 
 ## Relevant bugs capturing other feedback
 
@@ -915,3 +981,6 @@ that could greatly help the usability and usefulness of crates.io included:
 
 * [Rendering the README on crates.io](https://github.com/rust-lang/crates.io/issues/81)
 * [Linking to docs.rs if the crate hasn't specified a Documentation link](https://github.com/rust-lang/crates.io/pull/459)
+* [cargo doc should render crate examples and link to them on main documentation page](https://github.com/rust-lang/cargo/issues/2760)
+* [`cargo doc` could support building/testing standalone markdown files](https://github.com/rust-lang/cargo/issues/739)
+* [Allow documentation to be read from an external file](https://github.com/rust-lang/rust/issues/15470)
