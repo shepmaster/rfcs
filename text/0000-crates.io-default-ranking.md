@@ -307,6 +307,23 @@ compatibility, Top 25/100, and new/trending:
 # Appendix: User Research
 [user-research]: #appendix-user-research
 
+We ran a survey for 1 week and got 134 responses. The responses we got seem to
+be representative of the current Rust community: skewing heavily towards more
+experienced programmers and just about evenly distributed between Rust
+experience starting before 1.0, since 1.0, in the last year, and in the last 6
+months, with a slight bias towards longer amounts of experience. 0 Graydons
+responded to the survey.
+
+<img src="http://i.imgur.com/huSYPyd.png" width="800" alt="Distribution of programming experience of survey repsondents, over half have been programming for over 10 years" />
+
+<img src="http://i.imgur.com/t3kVXy9.png" width="800" alt="Distribution of Rust experience of survey respondents, slightly biased towards those who have been using Rust before 1.0 and since 1.0 over those with less than a year and less than 6 months" />
+
+Since this matches about what we'd expect of the Rust community, we believe
+this survey is representative. Given the bias towards more experience
+programming, we think the answers are worthy of using to inform recommendations
+crates.io will be making to programmers of all experience levels.
+
+
 <table border="1" cellspacing="0" cellpadding="0">
     <tr>
         <th>
