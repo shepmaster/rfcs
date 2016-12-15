@@ -13,7 +13,7 @@ context. [Categorization][cat-pr] and [badges][badge-pr] are coming to
 crates.io; categories help with finding a set of crates to consider and badges
 help communicate attributes of crates. The question of how to order crates
 within a category is still open. This RFC proposes a method of ranking crates
-combining number of downloads, verison, and other attributes in order to help
+combining number of downloads, version, and other attributes in order to help
 decide what crate to use.
 
 [cat-pr]: https://github.com/rust-lang/crates.io/pull/473
