@@ -6,11 +6,12 @@
 # Summary
 [summary]: #summary
 
-Add `gen {}` blocks to the language. These blocks implement `Iterator` and
-enable writing iterators in regular code by `yield`ing elements instead of having
-to implement `Iterator` for a custom struct and manually writing an `Iterator::next`
-method body. This is a change similar to adding `async {}` blocks that implement
-`Future` instead of having to manually write futures and their state machines.
+Add `gen {}` blocks to the language. These implement `Iterator` by `yield`ing
+elements. This is simpler and more intuitive than creating a custom type and
+manually implementing `Iterator` for that type, which requires writing an
+explicit `Iterator::next` method body. This is a change similar to adding `async
+{}` blocks that implement `Future` instead of having to manually write futures
+and their state machines.
 
 Furthermore, add `gen fn` to the language. `gen fn foo(arg: X) -> Y` desugars to
 `fn foo(arg: X) -> impl Iterator<Item = Y>`.
