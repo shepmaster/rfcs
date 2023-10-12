@@ -20,19 +20,19 @@ Furthermore, add `gen fn` to the language. `gen fn foo(arg: X) -> Y` desugars to
 [motivation]: #motivation
 
 The main motivation of this RFC is to reserve a new keyword in the 2024 edition.
-The feature used by this keyword described here should be treated as an e-RFC for
-experimentation on nightly with this new keyword. I would like to avoid too much
-discussion of the semantics provided here, and instead discuss the semantics during
-the experimental implementation work.
+The feature used by the keyword described here should be treated as an e-RFC for
+experimentation on nightly. I would like to avoid discussion of the semantics
+provided here, deferring that discussion until during the experimental
+implementation work.
 
 Writing iterators manually can be very painful. Many iterators can be written by
 chaining `Iterator` methods, but some need to be written as a `struct` and have
-`Iterator` implemented for them. Some of the code that is written this way pushes
-people to instead not use iterators, but just run a `for` loop and write to mutable
-state. With this RFC, you could write the `for` loop, without mutable state, and get
-an iterator out of it again.
+`Iterator` implemented for them. Some of the code that is written this way
+pushes people to avoid iterators and instead execute a `for` loop that eagerly
+writes values to mutable state. With this RFC, one can write the `for` loop
+and still get a lazy iterator of values.
 
-As an example, here are three ways to write an iterator over something that contains integers,
+As an example, here are multiple ways to write an iterator over something that contains integers,
 only keep the odd integers, and multiply all of them by 2:
 
 ```rust
@@ -40,6 +40,7 @@ only keep the odd integers, and multiply all of them by 2:
 fn odd_dup(values: impl Iterator<Item = u32>) -> impl Iterator<Item = u32> {
     values.filter(|value| value.is_odd()).map(|value| value * 2)
 }
+
 // `struct` and manual `impl`
 fn odd_dup(values: impl Iterator<Item = u32>) -> impl Iterator<Item = u32> {
     struct Foo<T>(T);
@@ -56,6 +57,7 @@ fn odd_dup(values: impl Iterator<Item = u32>) -> impl Iterator<Item = u32> {
     }
     Foo(values)
 }
+
 // `gen block`
 fn odd_dup(values: impl Iterator<Item = u32>) -> impl Iterator<Item = u32> {
     gen {
@@ -78,7 +80,7 @@ gen fn odd_dup(values: impl Iterator<Item = u32>) -> u32 {
 ```
 
 Iterators created with `gen` return `None` once they `return` (implicitly at the end of the scope or explicitly with `return`).
-See [#unresolved-questions] for whether `gen` iterators are fused or may behave strangely after having returned `None` once.
+See [the unresolved questions][#unresolved-questions] for whether `gen` iterators are fused or may behave strangely after having returned `None` once.
 Under no circumstances will it be undefined behavior if `next` is invoked again after having gotten a `None`.
 
 # Guide-level explanation
