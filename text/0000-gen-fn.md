@@ -154,27 +154,28 @@ on iterators over `Result`s
 
 ## Implementation
 
-This feature is mostly implemented via existing generators, we'll just need some desugarings and then lots of work to get good diagnostics.
+This feature is mostly implemented via existing generators.
+We'll need additional desugarings and lots of work to get good diagnostics.
 
-### Gen fn
+### `gen fn`
 
-`gen fn` desugars to the function itself, with its return type replaced by `impl Iterator<Item = $ret>` and its body wrapped in a `gen` block.
-So a `gen fn`'s "return type" is in fact its iterator's `yield` type.
+`gen fn` desugars to the function itself with the return type replaced by `impl Iterator<Item = $ret>` and its body wrapped in a `gen` block.
+A `gen fn`'s "return type" is its iterator's `yield` type.
 
 A `gen fn` captures all lifetimes and generic parameters into the `impl Iterator` return type (just like `async fn`).
-If you want more control over your captures, you'll need to use type alias impl trait when that becomes stable.
+If more control over captures is needed, type alias impl trait can be used when it is stabilized.
 
-Just like all other uses of `impl Trait`, auto traits are revealed without being specified.
+Like other uses of `impl Trait`, auto traits are revealed without being specified.
 
-### Gen blocks
+### `gen` blocks
 
-`gen` blocks are effectively the same as an unstable generator
+`gen` blocks are the same as an unstable generator
 
 * without arguments,
 * with an additional check forbidding holding borrows across `yield` points,
 * and an automatic `Iterator` implementation.
 
-We'll probably be able to modularize the generator impl and make it more robust (on the impl and diagnostics side) for the `gen` block case, but I believe the initial implementation should just be a HIR lowering to a generator and wrapping that generator in `std::iterator::from_generator`.
+We'll probably be able to modularize the generator implementation and make it more robust on the implementation and diagnostics side for the `gen` block case, but I believe the initial implementation should be a HIR lowering to a generator and wrapping that generator in [`from_generator`][].
 
 # Drawbacks
 [drawbacks]: #drawbacks
