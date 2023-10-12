@@ -133,11 +133,11 @@ produce infinite values of the unit type.
 [reference-level-explanation]: #reference-level-explanation
 ## New keyword
 
-In the 2024 edition we reserve `gen` as a keyword. Previous editions need to use `k#gen` to get the same features.
+In the 2024 edition we reserve `gen` as a keyword. Previous editions will use `k#gen` to get the same features.
 
 ## Error handling
 
-`foo?` in `gen` blocks desugars to
+`foo?` in `gen` blocks will stop iteration after the first error by desugaring to
 
 ```rust
 match foo.branch() {
@@ -149,8 +149,8 @@ match foo.branch() {
 }
 ```
 
-which will stop iteration after the first error. This is the same behaviour that `collect::<Result<_, _>>()` performs
-on any iterator over `Result`s
+This is the same behaviour that `collect::<Result<_, _>>()` performs
+on iterators over `Result`s
 
 ## Implementation
 
