@@ -121,7 +121,7 @@ Similarly the `?` operator on `Option`s will `yield None` if it is `None`, and r
 ## Fusing
 
 Just like `Generators`, Iterators produced by `gen` panic when invoked again after they have returned `None` once.
-This can probably be fixed by special casing the generator impl if `Generator::Return = ()`, as we can trivally
+This can probably be fixed by special casing the generator impl if `Generator::Return = ()`, as we can trivially
 produce infinite values of `()` type.
 
 # Reference-level explanation
@@ -207,7 +207,7 @@ like `gen` blocks, but don't have compiler support for nice diagnostics or langu
 
 ## `return` statements `yield` one last element
 
-Similarly to `try` blocks, trailing expresisons could yield their element.
+Similarly to `try` blocks, trailing expressions could yield their element.
 
 But then have no way to terminate iteration, as `return` statements would similarly have to have a
 value that needs to get `yield`ed before terminating iteration.
@@ -326,7 +326,7 @@ we could do something like postfix `yield` or an entirely new keyword, or...
 iter.yield
 ```
 
-### stlib macro
+### stdlib macro
 
 We could add a macro to the standard library and prelude, the macro would just expand to the for loop + yield.
 
@@ -356,7 +356,7 @@ it should be possible if no references are held across the `await` point, simila
 references across `yield` points in this RFC.
 
 
-## self-referential `gen` bloocks
+## self-referential `gen` blocks
 
 There are a few options forward:
 
