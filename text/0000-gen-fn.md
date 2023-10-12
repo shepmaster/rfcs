@@ -320,7 +320,7 @@ This should avoid any parsing issues around `gen` followed by `{` in expressions
 
 Python has the ability to `yield from` an iterator.
 Effectively this is syntax sugar for looping over all elements of the iterator and yielding them individually.
-There are infinite options to choose from if we want such a feature, so I'm just going to list the general ideas below:
+There are infinite options to choose from if we want such a feature, so I'm listing general ideas:
 
 ### Do nothing, just use loops
 
@@ -330,7 +330,7 @@ for x in iter {
 }
 ```
 
-### language support
+### Language support
 
 we could do something like postfix `yield` or an entirely new keyword, or...
 
@@ -340,25 +340,26 @@ iter.yield
 
 ### stdlib macro
 
-We could add a macro to the standard library and prelude, the macro would just expand to the for loop + yield.
+We could add a macro to the standard library and prelude.
+The macro would expand to a `for` loop + `yield`.
 
 ```rust
 yield_all!(iter)
 ```
 
-## Full on `Generator` support
+## Complete `Generator` support
 
-We already have a `Generator` trait on nightly that is much more powerful than the `Iterator`
+We already have a `Generator` trait on nightly that is more powerful than the `Iterator`
 API could possibly be.
 
 1. it uses `Pin<&mut Self>`, allowing self-references in the generator across yield points
 2. it has arguments (`yield` returns the arguments passed to it in the subsequent invocations)
 
-Similar (but def not the same) to ideas around `async` closures, I think we could argue for `Generators` to be `gen` closures,
-while `gen` blocks are the simpler concept that has no arguments and just captures variables.
+Similar to the ideas around `async` closures,
+I think we could argue for `Generators` to be `gen` closures while `gen` blocks are a simpler concept that has no arguments and only captures variables.
 
-Either way, support for full `Generator`s should (in my opinion) be discussed and implemented separately,
-as there are many more open questions around them than around just a simpler way to write `Iterator`s.
+Either way, support for full `Generator`s should be discussed and implemented separately,
+as there are many more open questions around them beyond a simpler way to write `Iterator`s.
 
 ## `async` interactions
 
@@ -366,7 +367,6 @@ We could support using `await` in `async gen` blocks, similar to how we support 
 This is not possible in general due to the fact that `Iterator::next` takes `&mut self` and not `Pin<&mut self>`, but
 it should be possible if no references are held across the `await` point, similar to how we disallow holding
 references across `yield` points in this RFC.
-
 
 ## self-referential `gen` blocks
 
@@ -381,5 +381,5 @@ There are a few options forward:
 
 ## `try` interactions
 
-We could allow `try gen fn foo() -> i32` to actually mean something akin to `gen fn foo() -> Result<i32, E>`.
-Whatever we do here, it should mirror whatever `try fn` will mean in the future.
+We could allow `try gen fn foo() -> i32` to mean something akin to `gen fn foo() -> Result<i32, E>`.
+Whatever we do here, it should mirror whatever `try fn` means in the future.
