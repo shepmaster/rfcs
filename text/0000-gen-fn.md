@@ -249,7 +249,6 @@ gen fn foo() {}
 
 is supposed to be, as it could be either `std::iter::once(())` or `std::iter::empty::<()>()`
 
-
 # Prior art
 [prior-art]: #prior-art
 
