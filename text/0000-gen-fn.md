@@ -183,19 +183,21 @@ We'll probably be able to modularize the generator implementation and make it mo
 It's another language feature for something that can already be written entirely in user code.
 
 In contrast to `Generator`, `gen` blocks that produce `Iterator`s cannot hold references across `yield` points.
-See also https://doc.rust-lang.org/std/iter/fn.from_generator.html, which has an `Unpin` bound on the generator it takes
-to produce an `Iterator`.
+See [`from_generator`][] which has an `Unpin` bound on the generator it takes to produce an `Iterator`.
+
+[`from_generator`]: https://doc.rust-lang.org/std/iter/fn.from_generator.html
 
 # Rationale and alternatives
 [rationale-and-alternatives]: #rationale-and-alternatives
 ## Keyword
 
-We could also use `iter` as a keyword. I would prefer `iter` in because I connect generators with a more powerful
-scheme than just plain `Iterator`s. The `Generator` trait can do everything that `iter` blocks and `async` blocks can do, and more. I believe connecting the `Iterator`
-trait with `iter` blocks is the right choice, but that would require us to carve out many exceptions for this keyword,
-as `iter` is used for module names and method names everywhere (including libstd/libcore). It may not be much worse than `gen` (see also [#unresolved-questions]).
-
-One argument for `iter` is also that we may want to use `gen` for full on generators in the future.
+We could use `iter` as the keyword.
+I prefer `iter` because I connect generators with a more powerful scheme than plain `Iterator`s.
+The `Generator` trait can do everything that `iter` blocks and `async` blocks can do and more.
+I believe connecting the `Iterator` trait with `iter` blocks is the right choice,
+but that would require us to carve out many exceptions for this keyword as `iter` is used for module names and method names everywhere (including libstd/libcore).
+It may not be much worse than `gen` (see also [the unresolved questions][#unresolved-questions]).
+We may want to use `gen` for full on generators in the future.
 
 ## 2021 edition
 
@@ -204,19 +206,22 @@ We can allow `gen fn` on all editions.
 
 ## Do not do this
 
-The alternative is to keep adding more helper methods to `Iterator`. It is already rather hard for new Rustaceans to get a hold of all the options they have on `Iterator`.
-Some such methods would also need to be very generic (not an `Iterator` example, but https://doc.rust-lang.org/std/primitive.array.html#method.try_map on arrays is something
-that has very complex diagnostics that are hard to improve, even if it's nice once it works).
+One alternative is to keep adding more helper methods to `Iterator`.
+It is already hard for new Rustaceans to be aware of all the capabilities of `Iterator`.
+Some of these new methods would need to be very generic.
+While it's not an `Iterator` example, [`array::try_map`][] is something that has very complex diagnostics that are hard to improve, even if it's nice once it works.
 
-Users can use crates like [`genawaiter`](https://crates.io/crates/genawaiter) instead, which work on stable and give you `gen!` blocks that behave pretty mostly
-like `gen` blocks, but don't have compiler support for nice diagnostics or language support for the `?` operator.
+Users can use crates like [`genawaiter`](https://crates.io/crates/genawaiter) instead.
+This crate works on stable and provides `gen!` macro blocks that behave like `gen` blocks, but don't have compiler support for nice diagnostics or language support for the `?` operator.
+
+[`array::try_map`]: https://doc.rust-lang.org/std/primitive.array.html#method.try_map
 
 ## `return` statements `yield` one last element
 
 Similarly to `try` blocks, trailing expressions could yield their element.
 
-But then have no way to terminate iteration, as `return` statements would similarly have to have a
-value that needs to get `yield`ed before terminating iteration.
+There would then be no way to terminate iteration as `return` statements would have to have a
+value that is `yield`ed before terminating iteration.
 
 We could do something magical where returning `()` terminates the iteration, so
 
