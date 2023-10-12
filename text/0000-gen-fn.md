@@ -88,15 +88,15 @@ Under no circumstances will it be undefined behavior if `next` is invoked again 
 
 ## New keyword
 
-Starting in the 2024 edition, `gen` is a keyword that cannot be used for naming any items or bindings. This means during the migration to the 2024 edition, all variables, functions, modules, types, ... named `gen` must be renamed. 
+Starting in the 2024 edition, `gen` is a keyword that cannot be used for naming any items or bindings. This means during the migration to the 2024 edition, all variables, functions, modules, types, ... named `gen` must be renamed.
 
 ## Returning/finishing an iterator
 
-`gen` blocks' trailing expression must be of unit type or the block must diverge before reaching its end.
+`gen` block's trailing expression must be of the unit type or the block must diverge before reaching its end.
 
 ### Diverging iterators
 
-For example, an `gen` block that produces the sequence `0, 1, 0, 1, 0, 1, ...`, will never return `None`
+For example, a `gen` block that produces the infinite sequence `0, 1, 0, 1, 0, 1, ...`, will never return `None`
 from `next`, and only drop its captured data when the iterator is dropped.
 
 ```rust
@@ -108,24 +108,26 @@ gen {
 }
 ```
 
-If an `gen` panics, the behavior is very similar to `return`, except that `next` doesn't return `None`, but unwinds.
+If a `gen` block panics, the behavior is very similar to `return`, except that `next` unwinds instead of returning `None`.
 
 ## Error handling
 
 Within `gen` blocks, the `?` operator desugars differently from how it desugars outside of `gen` blocks.
 Instead of returning the `Err` variant, `foo?` yields the `Err` variant and then `return`s immediately afterwards.
-This has the effect of it being an iterator with `Iterator::Item`'s type being  `Result<T, E>`, and once a `Some(Err(e))`
-is produced via `?`, the iterator returns `None` next.
+This creates an iterator with `Iterator::Item`'s type being `Result<T, E>`.
+Once a `Some(Err(e))` is produced via `?`, the iterator returns `None` on the subsequent call to `Iterator::next`.
 
-`gen` blocks do not need to have a trailing `Ok(x)` expression, because returning from an `gen` block will make the `Iterator` return `None` from now, which needs no value. Instead all `yield` operations must be given a `Result`.
+`gen` blocks do not need to have a trailing `Ok(x)` expression.
+Returning from a `gen` block will make the `Iterator` return `None`, which needs no value.
+Instead, all `yield` operations must be given a `Result`.
 
-Similarly the `?` operator on `Option`s will `yield None` if it is `None`, and require passing an `Option` to all `yield` operations.
+The `?` operator on `Option`s will `yield None` if it is `None`, and require passing an `Option` to all `yield` operations.
 
 ## Fusing
 
-Just like `Generators`, Iterators produced by `gen` panic when invoked again after they have returned `None` once.
+Like `Generators`, `Iterator`s produced by `gen` panic when invoked again after they have returned `None` once.
 This can probably be fixed by special casing the generator impl if `Generator::Return = ()`, as we can trivially
-produce infinite values of `()` type.
+produce infinite values of the unit type.
 
 # Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
