@@ -255,9 +255,8 @@ is supposed to be, as it could be either `std::iter::once(())` or `std::iter::em
 
 ## Python
 
-Python has `gen fn`: any function that uses `yield` internally.
-These work pretty much like the `gen` functions proposed in this PR. The main difference is that raising an
-exception automatically passes the exception outwards, instead of yielding an `Err()` element.
+Python has equivalent functionality to `gen fn`: any function that uses `yield` internally.
+The main difference is that raising an exception automatically passes the exception outwards, instead of yielding an `Err()` element.
 
 ```python
 def odd_dup(values):
@@ -271,8 +270,8 @@ def odd_dup(values):
 
 ## Keyword
 
-Should we use `iter` as a keyword instead, as we're producing `Iterator`s.
-We can also use `gen` like proposed in this RFC and later extend its abilities to more powerful generators.
+Should we use `iter` as the keyword, as we're producing `Iterator`s?
+We could use `gen` as proposed in this RFC and later extend its abilities to more powerful generators.
 
 [playground](https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=efeacb803158c2ebd57d43b4e606c0b5)
 
@@ -293,24 +292,26 @@ fn main() {
 
 ## Panicking
 
-What happens when a `gen` block that panicked gets `next` called again? Do we need to poison the iterator?
+What happens when `Iterator::next` is called again on a `gen` block that panicked? Do we need to poison the iterator?
 
 ## Fusing
 
-Should we make `gen` blocks fused? Right now they'd panic (which is what the generator impl does):
+Should we make `gen` blocks fused? Right now they'd panic (which is what the generator implementation does):
 
 ## Contextual keyword
 
-Popular crates (like `rand`) have methods called `gen` (https://docs.rs/rand/latest/rand/trait.Rng.html#method.gen). If we forbid those, we are forcing those crates to make a major version bump when they update their edition, and we are requiring any users of those crates to use `r#gen` instead of `gen` when calling that method.
+Popular crates (like `rand`) have methods called [`gen`][Rng::gen]. If we forbid those, we are forcing those crates to make a major version bump when they update their edition, and we are requiring any users of those crates to use `r#gen` instead of `gen` when calling that method.
 
-We could instead choose to use a contextual keyword and only forbid
+We could choose to use a contextual keyword and only forbid `gen` in
 
 * bindings,
 * field names (due to destructuring bindings),
 * enum variants,
 * and type names
 
-to be `gen`. This should avoid any parsing issues around `gen` followed by `{` in expressions.
+This should avoid any parsing issues around `gen` followed by `{` in expressions.
+
+[Rng::gen]: https://docs.rs/rand/latest/rand/trait.Rng.html#method.gen
 
 # Future possibilities
 [future-possibilities]: #future-possibilities
